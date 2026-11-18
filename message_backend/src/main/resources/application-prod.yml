@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://mariadb0:3306/message_db?characterEncoding=UTF-8&useBulkStmts=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
