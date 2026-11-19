@@ -12,10 +12,11 @@ public class PubController {
 
      private final PubService pubService;
 
-     @GetMapping("/channel")
-     public void subChannel(@RequestParam String channel) {
-          pubService.subChannel(channel);
-     }
+//     요청 시 구독
+//     @GetMapping("/channel")
+//     public void subChannel(@RequestParam String channel) {
+//          pubService.subChannel(channel);
+//     }
 
      @GetMapping("/cancel")
      public void cancelChannel(@RequestParam String channel) {

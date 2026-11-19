@@ -14,9 +14,10 @@ public class PubService {
     private final SubscribeListener subscribeListener;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void subChannel(String channel) {
-        redisMessageListenerContainer.addMessageListener(subscribeListener, new ChannelTopic(channel));
-    }
+//    요청 시 구독
+//    public void subChannel(String channel) {
+//        redisMessageListenerContainer.addMessageListener(subscribeListener, new ChannelTopic(channel));
+//    }
 
     public void cancelChannel(String channel) {
         redisMessageListenerContainer.removeMessageListener(subscribeListener);
