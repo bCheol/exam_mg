@@ -1,4 +1,4 @@
-package com.example.message.chat;
+package com.example.message.polling;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
