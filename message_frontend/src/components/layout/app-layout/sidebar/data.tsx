@@ -9,8 +9,12 @@ export const navItems: NavItem[] = [
     path: "/",
   },
   {
-    key: "polling",
+    key: "Polling",
     path: "/polling",
+  },
+  {
+    key: "SSE",
+    path: "/sse",
   },
   {
     key: "PubSub",

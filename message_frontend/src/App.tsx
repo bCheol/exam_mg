@@ -2,6 +2,7 @@ import AppLayout from "@/components/layout/app-layout";
 import HomePage from "@/pages/main/home";
 import { Error404Page } from "@/pages/main/pages";
 import Polling from "@/pages/main/polling";
+import SSE from "@/pages/main/sse";
 import PubSub from "@/pages/main/pubsub";
 
 import "flatpickr/dist/flatpickr.css";
@@ -14,6 +15,7 @@ export default function App() {
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="/polling" element={<Polling />} />
+        <Route path="/sse" element={<SSE />} />
         <Route path="/pubsub" element={<PubSub />} />
       </Route>
 
