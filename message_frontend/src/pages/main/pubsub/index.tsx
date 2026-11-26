@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function PubSub() {
+export default function PubSubPage() {
 
     const [channel, setChannel] = useState('');
     const [sendChannel, setSendChannel] = useState('');

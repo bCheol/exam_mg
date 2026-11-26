@@ -13,36 +13,37 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SseService {
 
     long TIMEOUT = 1000 * 60 * 5;
-    private final Map<String, SseEmitter> sseMap = new ConcurrentHashMap<>();
+    private final Map<String, SseEmitter> clientMap = new ConcurrentHashMap<>();
 
-    public SseEmitter saveUser(String user) {
+    public SseEmitter saveClient(String user) {
 
         SseEmitter sseEmitter =  new SseEmitter(TIMEOUT);
-        sseMap.put(user, sseEmitter);
+        clientMap.put(user, sseEmitter);
 
         // 정해진 시간이 지났을 때
         sseEmitter.onTimeout(sseEmitter::complete);
 
         // 연결이 끝났을 때
         // complete() 호출, 타임아웃 발생, 에러 발생
-        sseEmitter.onCompletion(() -> sseMap.remove(user));
+        sseEmitter.onCompletion(() -> clientMap.remove(user));
 
         sseEmitter.onError(e -> {
-            log.warn("Sse saveUser ERROR", e);
+            log.error("SSE saveUser ERROR", e);
+            // 연결 종료
             sseEmitter.complete();
         });
 
         return sseEmitter;
     }
 
-    public void sendMessage(String name, String receiveUser, Object data) {
+    public void sendMessage(String sender, String receiveUser, String data) {
 
-        SseEmitter sseEmitter = sseMap.get(receiveUser);
+        SseEmitter sseEmitter = clientMap.get(receiveUser);
 
         try {
-            sseEmitter.send(SseEmitter.event().id(receiveUser).name(name).data(data));
+            sseEmitter.send(SseEmitter.event().id(sender).name(receiveUser).data(data));
         } catch (IOException e) {
-            log.warn("Sse sendMessage ERROR", e);
+            log.error("SSE sendMessage ERROR", e);
         }
     }
 

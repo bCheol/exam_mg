@@ -15,7 +15,7 @@ public class PollingController {
     private final PollingService pollingService;
 
     @GetMapping("/polling")
-    public DeferredResult<Object> longPolling(@RequestParam String user) {
+    public DeferredResult<Object> connectPolling(@RequestParam String user) {
 
         DeferredResult<Object> deferredResult = new DeferredResult<>(10000L, List.of());
 
@@ -25,7 +25,7 @@ public class PollingController {
     }
 
     @PostMapping("/polling")
-    public boolean sendChat(@RequestBody Map<String, String> body) {
+    public boolean sendMessage(@RequestBody Map<String, String> body) {
 
         String sender = body.get("sender");
         String receiver = body.get("receiver");

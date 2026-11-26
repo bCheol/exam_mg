@@ -4,19 +4,19 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export interface PollingType {
+export interface ChatType {
     sender: string;
     message: string;
 }
 
-export default function Polling() {
+export default function PollingPage() {
 
-    const [chat, setChat] = useState<PollingType[]>();
     const [user, setUser] = useState('');
     const [receiver, setReceiver] = useState('');
     const [message, setMessage] = useState('');
+    const [chat, setChat] = useState<ChatType[]>();
 
-    const longPolling = () => {
+    const pollingServer = () => {
 
         if (!user)
             return;
@@ -29,14 +29,14 @@ export default function Polling() {
             } else {
                 setChat(undefined);
             }
-            longPolling();
+            pollingServer();
         })
         .catch((error) => {
-            console.log('longPolling ERROR :' + error);
+            console.log('pollingServer ERROR :' + error);
         });
     }
 
-    const sendPolling = () => {
+    const sendMessage = () => {
 
         if (!user)
             return;
@@ -60,7 +60,7 @@ export default function Polling() {
             }
         })
         .catch((error) => {
-            console.log('sendPolling ERROR :' + error);
+            console.log('polling sendMessage ERROR :' + error);
         });
     }
 
@@ -73,15 +73,14 @@ export default function Polling() {
             <div className="mb-5">
                 <Label>Long Polling</Label>
             </div>
-
             <div className="flex flex-col gap-y-3 mb-5">
                 <Input
-                    placeholder="회원 이름"
+                    placeholder="회원 이름 (보내는 회원)"
                     value={user}
                     onChange={(e) => setUser(e.target.value)}
                 />
-                <Button onClick={() => longPolling()}>
-                    Polling
+                <Button onClick={() => pollingServer()}>
+                    Polling Server
                 </Button>
                 <Input
                     placeholder="받는 회원"
@@ -95,7 +94,7 @@ export default function Polling() {
                 />
             </div>
             <div className="flex flex-col mb-5">
-                <Button onClick={() => sendPolling()}>
+                <Button onClick={() => sendMessage()}>
                     전송
                 </Button>
             </div>

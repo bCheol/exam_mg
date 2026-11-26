@@ -17,20 +17,20 @@ public class SseController {
 
 
     @GetMapping("/sse")
-    public ResponseEntity<SseEmitter> setConnect(@RequestParam String user) {
+    public ResponseEntity<SseEmitter> saveClient(@RequestParam String user) {
 
-        SseEmitter  sseEmitter = sseService.saveUser(user);
+        SseEmitter sseEmitter = sseService.saveClient(user);
         return ResponseEntity.ok(sseEmitter);
     }
 
     @PostMapping("/sse")
     public void sendMessage(@RequestBody Map<String, Object> body) {
 
-        String name = (String) body.get("name");
-        String receiveUser = (String) body.get("receiveUser");
-        Object data = body.get("data");
+        String sender = (String) body.get("sender");
+        String receiver = (String) body.get("receiver");
+        String message = (String) body.get("message");
 
-        sseService.sendMessage(name, receiveUser, data);
+        sseService.sendMessage(sender, receiver, message);
     }
 
 }

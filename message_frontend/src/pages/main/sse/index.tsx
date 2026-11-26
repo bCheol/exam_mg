@@ -4,39 +4,46 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function SSE() {
+export interface ChatType {
+    sender: string;
+    message: string;
+}
 
-    const [receiveMessage, setReceiveMessage] = useState('');
+export default function SsePage() {
+
     const [user, setUser] = useState('');
-    const [receiveUser, setReceiveUser] = useState('');
+    const [receiver, setReceiver] = useState('');
     const [message, setMessage] = useState('');
+    const [chat, setChat] = useState<ChatType[]>();
 
-    const connectSse = () => {
+    const connectServer = () => {
 
         if (!user)
             return;
 
-        // SSE 이벤트 이름 지정
         const sseEvent = new EventSource('/api/sse?user=' + user);
-        sseEvent.addEventListener('sse', (event) => {
-            setReceiveMessage(event.data);
+
+        // SSE 이벤트 이름 지정
+        sseEvent.addEventListener(user, (event) => {
+            console.log(event);
+            setChat([{sender: event.lastEventId, message: event.data}]);
         })
 
         // 이벤트 이름 없이 보냄
         sseEvent.onmessage = (event) => {
-            console.log(event.data);
+            console.log(event);
         }
 
         // 에러 및 연결 종료 처리
         sseEvent.onerror = (error) => {
-            console.error('connectSse ERROR :', error);
+            console.error('connectServer ERROR :', error);
             sseEvent.close();
         };
     }
 
-    const sendSse = () => {
+    const sendMessage = () => {
 
-        if (!receiveUser)
+        if (!receiver)
             return;
 
         if (!message)
@@ -44,22 +51,22 @@ export default function SSE() {
 
         axios.post('/api/sse',
         {
-            name: 'sse',
-            receiveUser: receiveUser,
-            data: message
+            sender: user,
+            receiver: receiver,
+            message: message
         })
         .then((response) => {
-            const res = response.data;
+            console.log(response);
             setMessage('');
         })
         .catch((error) => {
-            console.log('sendSse ERROR :' + error);
+            console.log('SSE sendMessage ERROR :' + error);
         });
     }
 
     useEffect(() => {
 
-    }, [receiveMessage])
+    }, [chat])
 
     return (
         <>
@@ -69,17 +76,17 @@ export default function SSE() {
 
             <div className="flex flex-col gap-y-3 mb-5">
                 <Input
-                    placeholder="회원 이름"
+                    placeholder="회원 이름 (보내는 회원)"
                     value={user}
                     onChange={(e) => setUser(e.target.value)}
                 />
-                <Button onClick={() => connectSse()}>
+                <Button onClick={() => connectServer()}>
                     연결
                 </Button>
                 <Input
                     placeholder="받는 회원"
-                    value={receiveUser}
-                    onChange={(e) => setReceiveUser(e.target.value)}
+                    value={receiver}
+                    onChange={(e) => setReceiver(e.target.value)}
                 />
                 <Input
                     placeholder="보내는 메시지"
@@ -88,14 +95,15 @@ export default function SSE() {
                 />
             </div>
             <div className="flex flex-col mb-5">
-                <Button onClick={() => sendSse()}>
+                <Button onClick={() => sendMessage()}>
                     전송
                 </Button>
             </div>
             <div>
-                {receiveMessage ?
+                {chat ?
                     <div className="flex flex-col gap-y-5">
-                        <Label>받은 메시지 : {receiveMessage}</Label>
+                        <Label>보낸 사람 : {chat[0]?.sender}</Label>
+                        <Label>받은 메시지 : {chat[0]?.message}</Label>
                     </div>
                 : ''}
             </div>

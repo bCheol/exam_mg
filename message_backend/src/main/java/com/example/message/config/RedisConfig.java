@@ -25,7 +25,7 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-//    요청 시 구독
+    /** 요청 시 구독 */
 //    @Bean
 //    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory) {
 //        RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
@@ -33,7 +33,7 @@ public class RedisConfig {
 //        return redisMessageListenerContainer;
 //    }
 
-//  시작 시 구독
+    /** 시작 시 구독 */
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory, MessageListenerAdapter messageListenerAdapter) {
         RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
@@ -42,7 +42,7 @@ public class RedisConfig {
         return redisMessageListenerContainer;
     }
 
-//  시작 시 구독
+    /** 시작 시 구독 */
     @Bean
     public MessageListenerAdapter messageListenerAdapter(SubscribeListener subscribeListener) {
         return new MessageListenerAdapter(subscribeListener, "onMessage");

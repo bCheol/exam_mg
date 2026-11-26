@@ -1,9 +1,9 @@
 import AppLayout from "@/components/layout/app-layout";
 import HomePage from "@/pages/main/home";
 import { Error404Page } from "@/pages/main/pages";
-import Polling from "@/pages/main/polling";
-import SSE from "@/pages/main/sse";
-import PubSub from "@/pages/main/pubsub";
+import PollingPage from "@/pages/main/polling";
+import SsePage from "@/pages/main/sse";
+import PubSubPage from "@/pages/main/pubsub";
 
 import "flatpickr/dist/flatpickr.css";
 import { Route, Routes } from "react-router";
@@ -14,9 +14,9 @@ export default function App() {
       {/* Dashboard Layout */}
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="/polling" element={<Polling />} />
-        <Route path="/sse" element={<SSE />} />
-        <Route path="/pubsub" element={<PubSub />} />
+        <Route path="/polling" element={<PollingPage />} />
+        <Route path="/sse" element={<SsePage />} />
+        <Route path="/pubsub" element={<PubSubPage />} />
       </Route>
 
       {/* Full-width / Error / Status Pages */}
