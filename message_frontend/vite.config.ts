@@ -27,13 +27,7 @@ export default defineConfig({
       },
       '/ws': {
         target: 'ws://localhost:28080',
-        ws: true,
-        changeOrigin: true,
-        configure: (proxy) => {
-          proxy.on('proxyReqWs', (proxyReq) => {
-            proxyReq.setHeader('origin', 'http://localhost:28080');
-          });
-        },        
+        ws: true,      
       }
     }
   }
