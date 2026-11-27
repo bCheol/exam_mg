@@ -17,6 +17,10 @@ export const navItems: NavItem[] = [
     path: "/sse",
   },
   {
+    key: "WebSocket",
+    path: "/websocket",
+  },
+  {
     key: "PubSub",
     path: "/pubsub",
   }
